@@ -1,10 +1,19 @@
 using BlazorEcommerce.Components;
+using BlazorEcommerce.Services;
+using BlazorEcommerce.Services.ProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri("https://fakestoreapi.com/")
+});
+builder.Services.AddHttpClient();
+builder.Services.AddTransient<ApiService>();
+builder.Services.AddTransient<ProductService>();
 
 var app = builder.Build();
 
