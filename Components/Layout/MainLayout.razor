@@ -1,9 +1,22 @@
 ﻿@inherits LayoutComponentBase
 
-@Body
+<div class="flex h-[100vh]">
+    <div class="w-[4vw] bg-neutral-900">
+    </div>
 
-<div id="blazor-error-ui">
+    <div class="flex flex-col w-[96vw]">
+        <NavMenu/>
+
+        <div class="px-16 py-6">
+            <main>
+                @Body
+            </main>
+        </div>
+    </div>
+</div>
+
+@* <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
-</div>
+</div> *@
