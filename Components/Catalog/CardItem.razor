@@ -1,0 +1,24 @@
+﻿<a href="#" class="bg-white border border-gray-200 h-fit rounded-lg hover:drop-shadow-lg">
+    <div class="h-36 flex w-full p-4 justify-center">
+        <img class="w-fit rounded-t-lg items-center" src="@ImageUrl" alt="" />
+    </div>
+    <div class="flex flex-col gap-2 p-4">
+        <h5 class="font-bold break-words line-clamp-2">@Title</h5>
+        <p class="font-normal text-sm break-words line-clamp-2 text-gray-700 dark:text-gray-400">@Description</p>
+        <p class="self-end text-lg font-medium">$@Price</p>
+    </div>
+</a>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Description { get; set; } = "";
+
+    [Parameter]
+    public string ImageUrl { get; set; } = "";
+
+    [Parameter]
+    public float Price { get; set; } = 0.0f;
+}
