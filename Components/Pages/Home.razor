@@ -1,4 +1,6 @@
 ﻿@page "/"
+@page "/category/{CategorySlug}"
+
 @using BlazorEcommerce.Components.Catalog
 
 <PageTitle>Home</PageTitle>
@@ -17,3 +19,7 @@
     </div>
 </div>
 
+@code{
+    [Parameter]
+    public string CategorySlug { get; set; } = string.Empty;
+}

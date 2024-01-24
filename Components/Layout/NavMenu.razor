@@ -1,10 +1,12 @@
-﻿<div class="flex flex-row w-full justify-between px-16">
+﻿@inject NavigationManager MyNavigationManager
+
+<div class="flex flex-row w-full justify-between px-16">
     <ul class="flex flex-row gap-10">
-        <li class="flex items-center py-6 font-medium"><a href="#">All</a></li>
-        <li class="flex items-center py-6"><a href="#">Electronics</a></li>
-        <li class="flex items-center py-6"><a href="#">Jewelry</a></li>
-        <li class="flex items-center py-6"><a href="#">Men's Clothing</a></li>
-        <li class="flex items-center py-6"><a href="#">Women's Clothing</a></li>
+        <li class="flex items-center py-6 @SetNavLinkActive("")"><a href="/">All</a></li>
+        <li class="flex items-center py-6 @SetNavLinkActive("electronics")"><a href="/category/electronics">Electronics</a></li>
+        <li class="flex items-center py-6 @SetNavLinkActive("jewelry")"><a href="/category/jewelry">Jewelry</a></li>
+        <li class="flex items-center py-6 @SetNavLinkActive("men-clothing")"><a href="/category/men-clothing">Men's Clothing</a></li>
+        <li class="flex items-center py-6 @SetNavLinkActive("women-clothing")"><a href="/category/women-clothing">Women's Clothing</a></li>
     </ul>
 
     <div class="flex items-center bg-neutral-900 px-8">
@@ -13,5 +15,17 @@
 </div>
 
 @code {
+    private string CurrentSlug { get; set; } = string.Empty;
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        CurrentSlug = MyNavigationManager.Uri.Split('/').Last();
+    }
+
+    private string SetNavLinkActive(string slug)
+    {
+        if (CurrentSlug == slug) return "font-medium";
+        return string.Empty;
+    }
 }
