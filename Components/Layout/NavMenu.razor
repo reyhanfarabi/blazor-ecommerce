@@ -8,7 +8,7 @@
         <li class="flex items-center py-6 @SetNavLinkActive("")"><a href="/">All</a></li>
         @foreach (var path in _categoriesPaths)
         {
-            <li class="flex items-center py-6 @SetNavLinkActive("@path[0]")"><a href="@path[0]">@path[1]</a></li>
+            <li class="flex items-center py-6 @SetNavLinkActive(@path[0])"><a href="@path[0]">@path[1]</a></li>
         }
     </ul>
 
@@ -21,13 +21,13 @@
     [Inject]
     private CategoryService _categoryService { get; set; } = default!;
 
-    private string CurrentSlug { get; set; } = string.Empty;
+    private string _currentSlug { get; set; } = string.Empty;
     private List<List<string>> _categoriesPaths { get; set; } = new List<List<string>>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        CurrentSlug = MyNavigationManager.Uri.Split('/').Last();
+        _currentSlug = MyNavigationManager.Uri.Split('/').Last().DecodeUrlToString();
     }
 
     protected override async Task OnInitializedAsync()
@@ -39,7 +39,7 @@
 
     private string SetNavLinkActive(string slug)
     {
-        if (CurrentSlug == slug) return "font-medium underline underline-offset-8";
+        if (_currentSlug == slug.Split('/').Last()) return "font-medium underline underline-offset-8";
         return string.Empty;
     }
 
@@ -48,7 +48,7 @@
         foreach(string category in categories)
         {
             _categoriesPaths.Add(new List<string>{
-                $"/category/{category.EncodeStringToUrl()}",
+                $"/category/{category}",
                 category.ToCapitalizeWord()
             });
         }

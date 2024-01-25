@@ -1,14 +1,21 @@
 ﻿@page "/"
-@page "/category/{CategorySlug}"
+@page "/category/{_categorySlug}"
 
 @using BlazorEcommerce.Components.Catalog
 @using BlazorEcommerce.Models
 @using BlazorEcommerce.Services.ProductService
 
+@rendermode InteractiveServer
+
 <PageTitle>Home</PageTitle>
 
 <div class="flex flex-col gap-4">
     <h1 class="text-4xl mb-4">Our Catalogs</h1>
+
+    @if (_isLoading)
+    {
+        <p>Loading...</p>
+    }
 
     <div class="grid lg:grid-cols-6 sm:grid-cols-3 h-[70vh] overflow-auto gap-8 p-2">
         @if (_products is not null)
@@ -26,15 +33,24 @@
 
 @code{
     [Parameter]
-    public string CategorySlug { get; set; } = string.Empty;
+    public string _categorySlug { get; set; } = string.Empty;
 
     [Inject]
     private ProductService _productService { get; set; } = default!;
 
     private IEnumerable<Product>? _products = Array.Empty<Product>();
+    private bool _isLoading { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
-        _products = await _productService.GetProductsAsync();
+        _isLoading = true;
+        _products = await GetCatalogs();
+        _isLoading = false;
+    }
+
+    private async Task<IEnumerable<Product>> GetCatalogs()
+    {
+        if (_categorySlug is null) return await _productService.GetProductsAsync();
+        return await _productService.GetProductsByCategoryAsync(_categorySlug);
     }
 }
