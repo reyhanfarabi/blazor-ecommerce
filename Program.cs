@@ -1,5 +1,6 @@
 using BlazorEcommerce.Components;
 using BlazorEcommerce.Services;
+using BlazorEcommerce.Services.CategoryService;
 using BlazorEcommerce.Services.ProductService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddScoped(sp => new HttpClient
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<ApiService>();
 builder.Services.AddTransient<ProductService>();
+builder.Services.AddTransient<CategoryService>();
 
 var app = builder.Build();
 

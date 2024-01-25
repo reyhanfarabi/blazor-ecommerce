@@ -1,12 +1,15 @@
-﻿@inject NavigationManager MyNavigationManager
+﻿@using BlazorEcommerce.Services.CategoryService
+@using BlazorEcommerce.Utils
+
+@inject NavigationManager MyNavigationManager
 
 <div class="flex flex-row w-full justify-between px-16">
     <ul class="flex flex-row gap-10">
         <li class="flex items-center py-6 @SetNavLinkActive("")"><a href="/">All</a></li>
-        <li class="flex items-center py-6 @SetNavLinkActive("electronics")"><a href="/category/electronics">Electronics</a></li>
-        <li class="flex items-center py-6 @SetNavLinkActive("jewelry")"><a href="/category/jewelry">Jewelry</a></li>
-        <li class="flex items-center py-6 @SetNavLinkActive("men-clothing")"><a href="/category/men-clothing">Men's Clothing</a></li>
-        <li class="flex items-center py-6 @SetNavLinkActive("women-clothing")"><a href="/category/women-clothing">Women's Clothing</a></li>
+        @foreach (var path in _categoriesPaths)
+        {
+            <li class="flex items-center py-6 @SetNavLinkActive("@path[0]")"><a href="@path[0]">@path[1]</a></li>
+        }
     </ul>
 
     <div class="flex items-center bg-neutral-900 px-8">
@@ -15,7 +18,11 @@
 </div>
 
 @code {
+    [Inject]
+    private CategoryService _categoryService { get; set; } = default!;
+
     private string CurrentSlug { get; set; } = string.Empty;
+    private List<List<string>> _categoriesPaths { get; set; } = new List<List<string>>();
 
     protected override void OnInitialized()
     {
@@ -23,9 +30,27 @@
         CurrentSlug = MyNavigationManager.Uri.Split('/').Last();
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        // get and map product categories into navmenu link
+        IEnumerable<string> categories = await _categoryService.GetCategoriesAsync();
+        NavMenuMapper(categories);
+    }
+
     private string SetNavLinkActive(string slug)
     {
         if (CurrentSlug == slug) return "font-medium underline underline-offset-8";
         return string.Empty;
+    }
+
+    private void NavMenuMapper(IEnumerable<string> categories)
+    {
+        foreach(string category in categories)
+        {
+            _categoriesPaths.Add(new List<string>{
+                $"/category/{category.EncodeStringToUrl()}",
+                category.ToCapitalizeWord()
+            });
+        }
     }
 }
