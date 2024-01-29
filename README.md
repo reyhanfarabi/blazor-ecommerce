@@ -19,3 +19,4 @@ F-Commerce is simple E-Commerce website I created for practice purposes.
 ## Credits
 - API => https://fakestoreapi.com/
 - UI Ideas => https://dribbble.com/shots/6467671-Catalog-page-template-Avis-UI-Pack
+- Exchange Rate from USD to IDR => https://fiskal.kemenkeu.go.id/informasi-publik/kurs-pajak
