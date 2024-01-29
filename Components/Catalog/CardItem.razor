@@ -5,20 +5,20 @@
     <div class="flex flex-col gap-2 p-4 h-40 justify-end">
         <h5 class="font-bold break-words line-clamp-2">@Title</h5>
         <p class="font-normal text-sm break-words line-clamp-2 text-gray-700 dark:text-gray-400">@Description</p>
-        <p class="self-end text-lg font-medium">$@Price</p>
+        <p class="self-end text-lg font-medium">Rp @Price</p>
     </div>
 </a>
 
 @code {
     [Parameter]
-    public string Title { get; set; } = "";
+    public string Title { get; set; } = string.Empty;
 
     [Parameter]
-    public string Description { get; set; } = "";
+    public string Description { get; set; } = string.Empty;
 
     [Parameter]
-    public string ImageUrl { get; set; } = "";
+    public string ImageUrl { get; set; } = string.Empty;
 
     [Parameter]
-    public float Price { get; set; } = 0.0f;
+    public string Price { get; set; } = string.Empty;
 }
