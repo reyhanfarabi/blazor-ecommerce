@@ -1,0 +1,41 @@
+@page "/product/{_productId}"
+
+@using BlazorEcommerce.Components.Common
+
+@inject IJSRuntime _jsRuntime
+
+@rendermode InteractiveServer
+
+<PageTitle>Product Details</PageTitle>
+
+<div class="flex flex-col gap-4 w-2/3 mx-auto">
+    <Button OnClickCallback="@ToPreviousPage">&larr; Back</Button>
+    <div class="grid grid-cols-3 gap-10">
+        <div class="col-span-1 flex justify-center h-96">
+            <img class="w-fit m-4" src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"/>
+        </div>
+        <div class="col-span-2 flex flex-col justify-between">
+            <div class="flex flex-col gap-8">
+                <div class="flex flex-col gap-2">
+                    <h3 class="text-lg">Men's Clothing</h3  >
+                    <h1 class="text-4xl font-bold">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h1>
+                </div>
+                <p>Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday</p>
+            </div>
+            <div class="col-span-1 flex flex-row justify-end gap-4">
+                <Button>Add to Cart</Button>
+                <Button>Buy</Button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public string _productId { get; set; } = string.Empty;
+
+    private void ToPreviousPage()
+    {
+        _jsRuntime.InvokeVoidAsync("history.back");
+    }
+}

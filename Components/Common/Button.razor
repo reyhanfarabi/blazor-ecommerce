@@ -1,0 +1,14 @@
+<button
+    class="w-fit px-4 py-1 outline outline-[0.8px] hover:bg-black hover:text-white"
+    onclick="@OnClickCallback">
+    @ChildContent
+</button>
+
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback OnClickCallback { get; set; }
+}

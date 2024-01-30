@@ -7,6 +7,10 @@
 @using BlazorEcommerce.Services.CurrencyService
 @using BlazorEcommerce.Utils
 
+@inject NavigationManager _nav
+@inject ProductService _productService
+@inject CurrencyService _currencyService
+
 @rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
@@ -27,7 +31,8 @@
                 <CardItem Title="@product.Title"
                 Description="@product.Description"
                 ImageUrl="@product.Image"
-                Price="@ConvertPriceToIDR(product.Price)"/>
+                Price="@ConvertPriceToIDR(product.Price)"
+                RedirectURL="@GetProductURL(product.Id)"/>
             }
         }
     </div>
@@ -36,12 +41,6 @@
 @code{
     [Parameter]
     public string _categorySlug { get; set; } = string.Empty;
-
-    [Inject]
-    private ProductService _productService { get; set; } = default!;
-
-    [Inject]
-    private CurrencyService _currencyService { get; set; } = default!;
 
     private IEnumerable<Product>? _products = Array.Empty<Product>();
     private bool _isLoading { get; set; } = false;
@@ -66,5 +65,10 @@
     {
         float newPrice = price * _idrExchangeRate;
         return newPrice.ToIndonesiaPriceFormat().Split(',')[0];
+    }
+
+    private string GetProductURL(int productId)
+    {
+        return $"/product/{productId}";
     }
 }

@@ -1,4 +1,4 @@
-﻿<a href="#" class="bg-white border border-gray-200 h-fit rounded-lg hover:drop-shadow-lg">
+﻿<a href="@RedirectURL" class="bg-white border border-gray-200 h-fit rounded-lg hover:drop-shadow-lg">
     <div class="h-36 flex w-full p-4 justify-center">
         <img class="w-fit rounded-t-lg items-center" src="@ImageUrl" alt="" />
     </div>
@@ -21,4 +21,7 @@
 
     [Parameter]
     public string Price { get; set; } = string.Empty;
+
+    [Parameter]
+    public string RedirectURL { get; set; } = string.Empty;
 }
