@@ -15,8 +15,9 @@ public static class Utils
         return WebUtility.UrlDecode(str);
     }
 
-    public static string ToCapitalizeWord(this string str)
+    public static string ToCapitalizeWord(this string? str)
     {
+        if (string.IsNullOrWhiteSpace(str)) return "";
         return string.Join(" ", str.Split().Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower()));
     }
 

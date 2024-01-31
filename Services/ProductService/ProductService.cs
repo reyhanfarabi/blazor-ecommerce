@@ -20,4 +20,9 @@ public class ProductService : IProductService
     {
         return await _apiService.Get<IEnumerable<Product>>($"products/category/{category.ToLower()}");
     }
+
+    public async Task<Product> GetProduct(string productId)
+    {
+        return await _apiService.Get<Product>($"products/{productId}");
+    }
 }

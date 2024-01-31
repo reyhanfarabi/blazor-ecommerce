@@ -1,8 +1,12 @@
 @page "/product/{_productId}"
 
 @using BlazorEcommerce.Components.Common
+@using BlazorEcommerce.Services.ProductService
+@using BlazorEcommerce.Models
+@using BlazorEcommerce.Utils
 
 @inject IJSRuntime _jsRuntime
+@inject ProductService _productService
 
 @rendermode InteractiveServer
 
@@ -12,15 +16,15 @@
     <Button OnClickCallback="@ToPreviousPage">&larr; Back</Button>
     <div class="grid grid-cols-3 gap-10">
         <div class="col-span-1 flex justify-center h-96">
-            <img class="w-fit m-4" src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"/>
+            <img class="w-fit m-4" src="@_product.Image"/>
         </div>
         <div class="col-span-2 flex flex-col justify-between">
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col gap-2">
-                    <h3 class="text-lg">Men's Clothing</h3  >
-                    <h1 class="text-4xl font-bold">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h1>
+                    <h3 class="text-lg">@_product.Category.ToCapitalizeWord()</h3  >
+                    <h1 class="text-4xl font-bold">@_product.Title</h1>
                 </div>
-                <p>Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday</p>
+                <p>@_product.Description</p>
             </div>
             <div class="col-span-1 flex flex-row justify-end gap-4">
                 <Button>Add to Cart</Button>
@@ -33,6 +37,18 @@
 @code{
     [Parameter]
     public string _productId { get; set; } = string.Empty;
+
+    private Product _product { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _product = await GetProduct(_productId);
+    }
+
+    private async Task<Product> GetProduct(string productId)
+    {
+        return await _productService.GetProduct(productId);
+    }
 
     private void ToPreviousPage()
     {
